@@ -1,0 +1,219 @@
+en
+conf t
+router eigrp 3
+no auto-summary
+do wr
+end
+exit
+
+
+
+MSW1
+
+enable
+conf t
+interface port-channel 1
+interface vlan 13
+ip address 192.168.3.1 255.255.255.192
+exit
+interface port-channel 1
+interface vlan 23
+ip address 192.168.3.65 255.255.255.192
+exit
+do wr
+
+en
+conf t
+int gig1/1/3
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.14 255.255.255.252
+no sh
+exit
+int gig1/1/1
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.29 255.255.255.252
+no sh
+exit
+int gig1/1/2
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.26 255.255.255.252
+no sh
+exit
+do wr
+
+Switch(config)#ip routing
+Switch(config)#router eigrp 3
+Switch(config-router)#netw
+Switch(config-router)#network 192.168.3.0 0.0.0.63
+Switch(config-router)#net
+Switch(config-router)#network 192.168.3.64 0.0.0.63
+Switch(config-router)#net
+Switch(config-router)#network 10.0.0.12 0.0.0.3
+Switch(config-router)#
+%DUAL-5-NBRCHANGE: IP-EIGRP 3: Neighbor 10.0.0.13 (GigabitEthernet1/1/3) is up: new adjacency
+
+Switch(config-router)#net
+Switch(config-router)#network 10.0.0.28 0.0.0.3
+Switch(config-router)#net
+Switch(config-router)#network 10.0.0.24 0.0.0.3
+no auto-summary
+Switch(config-router)#exit
+Switch(config)#do wr
+
+MSW2
+
+enable
+conf t
+interface port-channel 1
+interface vlan 13
+ip address 192.168.3.129 255.255.255.192
+exit
+interface port-channel 1
+interface vlan 23
+ip address 192.168.3.193 255.255.255.192
+exit
+do wr
+int gig1/1/3
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.18 255.255.255.252
+no sh
+exit
+int gig1/1/1
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.30 255.255.255.252
+no sh
+exit
+int gig1/1/2
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.22 255.255.255.252
+no sh
+exit
+do wr
+
+Switch(config)#ip routing
+Switch(config)#ro
+Switch(config)#router ei
+Switch(config)#router eigrp 3
+Switch(config-router)#net
+Switch(config-router)#network 10.0.0.16 0.0.0.3
+Switch(config-router)#
+%DUAL-5-NBRCHANGE: IP-EIGRP 3: Neighbor 10.0.0.17 (GigabitEthernet1/1/3) is up: new adjacency
+	
+Switch(config-router)#network 10.0.0.28 0.0.0.3
+Switch(config-router)#
+%DUAL-5-NBRCHANGE: IP-EIGRP 3: Neighbor 10.0.0.29 (GigabitEthernet1/1/1) is up: new adjacency
+
+Switch(config-router)#net
+Switch(config-router)#network 10.0.0.20 0.0.0.3
+Switch(config-router)#
+%DUAL-5-NBRCHANGE: IP-EIGRP 3: Neighbor 10.0.0.21 (GigabitEthernet1/1/2) is up: new adjacency
+
+Switch(config-router)#net
+Switch(config-router)#network 192.168.3.192 0.0.0.63
+Switch(config-router)#net
+Switch(config-router)#network 192.168.3.128 0.0.0.63
+no auto-summary
+Switch(config-router)#exit
+Switch(config)#do wr
+
+MSW11
+
+en
+conf t
+
+int gig1/1/1
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.25 255.255.255.252
+no sh
+exit
+int gig1/0/1
+ip ad
+no sw
+no switchport 
+
+
+ip ad
+ip address 10.0.0.9 255.255.255.252
+no sh
+exit
+int gig1/1/2
+no sw
+no switchport 
+
+ip ad
+ip address 10.0.0.21 255.255.255.252
+exit
+do wr
+
+ip routing
+router eigrp 3
+network 10.0.0.8 0.0.0.3
+network 10.0.0.24 0.0.0.3
+
+network 10.0.0.20 0.0.0.3
+no auto-summary
+exit
+do wr
+
+MSW0
+
+en
+conf t
+int gig1/0/1
+no switchport 
+
+ip ad
+ip address 10.0.0.1 255.255.255.252
+no sh
+exit
+int gig1/0/2
+no switchport 
+ip address 10.0.0.5 255.255.255.252
+no sh
+exit
+int gig1/1/1
+no switchport 
+ip address 10.0.0.13 255.255.255.252
+no sh
+exit
+int gig1/1/2
+no sw
+no switchport 
+ip address 10.0.0.17 255.255.255.252
+no sh
+exit
+do wr
+
+ip routing
+router eigrp 3
+network 10.0.0.0 0.0.0.3
+network 10.0.0.4 0.0.0.3
+net
+network 10.0.0.12 0.0.0.3
+net
+network 10.0.0.16 0.0.0.3
+no auto-summary
+exit
+do wr
+

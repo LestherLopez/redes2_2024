@@ -1,0 +1,585 @@
+! ------------------------------------------------------------------------
+! -------------------- PLANTILLA SWITCH CAPA 2
+! ------------------------------------------------------------------------
+! ------------------------------------------------------------------------
+
+enable 
+conf t
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface FastEthernet 0/X
+switchport mode access
+switchport access vlan XX
+
+interface FastEthernet 0/X
+switchport mode trunk
+switchport trunk allowed vlan 13,23,33
+do wr
+end
+
+
+! -- SWITCH 2 , SWITCH 5
+enable 
+conf t
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface FastEthernet 0/1
+switchport mode access
+switchport access vlan 33
+
+interface FastEthernet 0/2
+switchport mode access
+switchport access vlan 23
+
+interface FastEthernet 0/3
+switchport mode trunk
+switchport trunk allowed vlan 13,23,33
+do wr
+end
+
+
+! -- SWITCH 4
+
+enable 
+conf t
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface FastEthernet 0/1
+switchport mode access
+switchport access vlan 23
+
+interface FastEthernet 0/2
+switchport mode access
+switchport access vlan 33
+
+interface FastEthernet 0/3
+switchport mode trunk
+switchport trunk allowed vlan 13,23,33
+do wr
+end
+
+! -- SWITCH 3
+
+enable 
+conf t
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface FastEthernet 0/1
+switchport mode access
+switchport access vlan 33
+interface FastEthernet 0/2
+switchport mode access
+switchport access vlan 13
+
+interface FastEthernet 0/3
+switchport mode trunk
+switchport trunk allowed vlan 13,23,33
+do wr
+end
+
+! ------------------------------------------------------------------------
+! ------------------------------------------------------------------------
+! ------------------- SWITCH CAPA 3 
+! ------------------------------------------------------------------------
+! ------------------------------------------------------------------------
+
+
+! -- PLANTILLA SWITCH CAPA 3
+
+! Habilitar el enrutamiento IP
+enable
+conf t
+ip routing
+
+! Configurar puertos como trunk para permitir VLANs entre switches L2 y L3
+interface FastEthernet 0/X
+switchport trunk encapsulation dot1q
+ switchport mode trunk
+
+! PUERTOS HACIA OTROS L3 
+interface Port-channelX
+ no switchport
+ ip address 10.10.10.X 255.255.255.252
+ no shutdown
+exit
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+! Crear interfaces VLAN (SVI) y asignar direcciones IP
+interface vlan 13
+ ip address 192.168.X3.1 255.255.255.0  
+ no shutdown
+
+interface vlan 23
+ ip address 192.168.X3.1 255.255.255.0  
+ no shutdown
+
+interface vlan 33
+ ip address 192.168.X3.1 255.255.255.0  
+ no shutdown
+
+! Guardar configuración
+do wr
+end
+
+
+
+!----- SW1
+
+enable
+conf t
+ip routing
+
+! Configurar puertos como trunk para permitir VLANs entre switches L2 y L3
+interface FastEthernet 0/1
+switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no shutdown
+
+! PUERTOS HACIA OTROS L3 
+interface Port-channel1
+ no switchport
+ ip address 10.10.10.2 255.255.255.252
+ no shutdown
+exit
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface vlan 23
+ ip address 192.168.23.1 255.255.255.0  
+ no shutdown
+
+interface vlan 33
+ ip address 192.168.13.1 255.255.255.0  
+ no shutdown
+
+! Guardar configuración
+do wr
+end
+
+!----- SW4
+
+enable
+conf t
+ip routing
+
+! Configurar puertos como trunk para permitir VLANs entre switches L2 y L3
+interface FastEthernet 0/1
+switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no shutdown
+
+! PUERTOS HACIA OTROS L3 
+interface Port-channel1
+ no switchport
+ ip address 10.10.10.6 255.255.255.252
+ no shutdown
+exit
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface vlan 23
+ ip address 192.168.83.1 255.255.255.0  
+ no shutdown
+
+interface vlan 33
+ ip address 192.168.73.1 255.255.255.0  
+ no shutdown
+
+! Guardar configuración
+do wr
+end
+
+!----- SW3
+
+enable
+conf t
+ip routing
+
+! Configurar puertos como trunk para permitir VLANs entre switches L2 y L3
+interface FastEthernet 0/1
+switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no shutdown
+
+! PUERTOS HACIA OTROS L3 
+interface Port-channel1
+ no switchport
+ ip address 10.10.10.10 255.255.255.252
+ no shutdown
+exit
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface vlan 23
+ ip address 192.168.63.1 255.255.255.0  
+ no shutdown
+
+interface vlan 33
+ ip address 192.168.53.1 255.255.255.0  
+ no shutdown
+
+! Guardar configuración
+do wr
+end
+
+
+!----- SW2
+
+enable
+conf t
+ip routing
+
+! Configurar puertos como trunk para permitir VLANs entre switches L2 y L3
+interface FastEthernet 0/1
+switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no shutdown
+
+! PUERTOS HACIA OTROS L3 
+interface Port-channel1
+ no switchport
+ ip address 10.10.10.1 255.255.255.252
+ no shutdown
+interface Port-channel2
+ no switchport
+ ip address 10.10.10.9 255.255.255.252
+ no shutdown
+interface Port-channel3
+ no switchport
+ ip address 10.10.10.5 255.255.255.252
+ no shutdown
+exit
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+
+interface vlan 13
+ ip address 192.168.43.1 255.255.255.0  
+ no shutdown
+
+interface vlan 33
+ ip address 192.168.33.1 255.255.255.0  
+ no shutdown
+
+! Guardar configuración
+do wr
+end
+
+
+
+
+
+!--- CREACIÓN DE VLANS
+
+ena
+conf t
+vlan 13
+name SOPORTE
+vlan 23
+name VISITANTES
+vlan 33
+name RECURSOS
+exit
+interface vlan 13
+ip address 192.168.13.1 255.255.255.0
+no shut
+exit
+interface vlan 23
+ip address 192.168.23.1 255.255.255.0
+no shut
+exit
+interface vlan 33
+ip address 192.168.33.1 255.255.255.0
+no shut
+exit
+
+
+!---- SW1 EIGRP
+
+en
+conf t
+router eigrp 3
+network 192.168.13.0 0.0.0.255
+network 192.168.23.0 0.0.0.255
+network 10.10.10.0 0.0.0.3
+no auto-summary
+exit
+do wr
+
+!---- SW2 EIGRP
+
+en
+conf t
+router eigrp 3
+network 192.168.33.0 0.0.0.255
+network 192.168.43.0 0.0.0.255
+network 10.10.10.0 0.0.0.3
+network 10.10.10.4 0.0.0.3
+network 10.10.10.8 0.0.0.3
+no auto-summary
+exit
+do wr
+
+!---- SW3 EIGRP
+
+en
+conf t
+router eigrp 3
+network 192.168.63.0 0.0.0.255
+network 192.168.53.0 0.0.0.255
+network 10.10.10.8 0.0.0.3
+no auto-summary
+exit
+do wr
+
+!---- SW4 EIGRP
+
+en
+conf t
+router eigrp 3
+network 192.168.73.0 0.0.0.255
+network 192.168.83.0 0.0.0.255
+network 10.10.10.4 0.0.0.3
+no auto-summary
+exit
+do wr
+
+!---- Configuracion MD5 EIGRP
+
+!---- KEY CHAIN en SW de capa 3
+
+en 
+conf t
+key chain llavero_g3
+key 3
+key-string redes2-g3
+exit
+exit
+do wr
+
+!---- SW1 OSPF
+en
+conf t
+router ospf 1
+network 192.168.13.0 0.0.0.255 area 3
+network 192.168.23.0 0.0.0.255 area 3
+network 10.10.10.0 0.0.0.3 area 3
+area 3 authentication message-digest
+do wr
+end
+
+
+!---- SW2 OSPF
+en
+conf t
+router ospf 1
+network 192.168.33.0 0.0.0.255 area 3
+network 192.168.43.0 0.0.0.255 area 3
+network 10.10.10.0 0.0.0.3 area 3
+network 10.10.10.4 0.0.0.3 area 3
+network 10.10.10.8 0.0.0.3 area 3
+area 3 authentication message-digest
+do wr
+end
+
+!---- SW3 OSPF
+
+en
+conf t
+router ospf 1
+network 192.168.63.0 0.0.0.255 area 3
+network 192.168.53.0 0.0.0.255 area 3
+network 10.10.10.8 0.0.0.3 area 3
+area 3 authentication message-digest
+do wr
+end
+
+!---- SW4 OSPF
+
+en
+conf t
+router ospf 1
+network 192.168.73.0 0.0.0.255 area 3
+network 192.168.83.0 0.0.0.255 area 3
+network 10.10.10.4 0.0.0.3 area 3
+area 3 authentication message-digest
+do wr
+end
+
+!---- Configuracion MD5 OSPF
+!---- SW1
+en
+conf t
+interface port-channel 1
+ip ospf message-digest-key 1 md5 redes2-g3
+ex
+do wr
+!---- SW2
+en
+conf t
+interface port-channel 1
+ip ospf message-digest-key 1 md5 redes2-g3
+ex
+interface port-channel 2
+ip ospf message-digest-key 1 md5 redes2-g3
+ex
+interface port-channel 3
+ip ospf message-digest-key 1 md5 redes2-g3
+ex
+do wr
+!---- SW3
+en
+conf t
+interface port-channel 1
+ip ospf message-digest-key 1 md5 redes2-g3
+ex
+do wr
+!---- SW4
+en
+conf t
+interface port-channel 1
+ip ospf message-digest-key 1 md5 redes2-g3
+ex
+do wr
+
+!---- ACL
+
+!---- SW1
+
+en
+conf t
+access-list 103 deny icmp 192.168.23.0 0.0.0.255 192.168.13.0 0.0.0.255 echo
+int port-channel1 
+ip access-group 3 in
+
+
+!--- SW1 - VLAN RECURSOS (AUN NO SIRVE)
+
+access-list 103 deny icmp 192.168.13.0 0.0.0.255 192.168.43.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+access-list 103 deny icmp 192.168.23.0 0.0.0.255 192.168.43.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.23.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+int port-channel1
+ip access-group 103 out
+exit
+
+---- VLAN VERDE M2
+
+access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.73.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.73.0 0.0.0.255 echo-reply
+access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.53.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.53.0 0.0.0.255 echo-reply
+access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.33.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.13.0 0.0.0.255 192.168.33.0 0.0.0.255 echo-reply
+access-list 103 deny icmp 192.168.13.0 0.0.0.255 any echo
+
+---- VLAN VERDE Biblioteca
+
+access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.13.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.13.0 0.0.0.255 echo-reply
+access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.53.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.53.0 0.0.0.255 echo-reply
+access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.33.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.33.0 0.0.0.255 echo-reply
+access-list 103 deny icmp 192.168.73.0 0.0.0.255 any echo
+
+---- VLAN VERDE T9
+
+access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.73.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.73.0 0.0.0.255 echo-reply
+access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.13.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.13.0 0.0.0.255 echo-reply
+access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.33.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.33.0 0.0.0.255 echo-reply
+access-list 103 deny icmp 192.168.53.0 0.0.0.255 any echo
+access-list 103 permit icmp any any echo-reply
+
+!--- SW3 - VLAN RECURSOS (AUN NO SIRVE)
+
+access-list 103 deny icmp 192.168.63.0 0.0.0.255 192.168.43.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.63.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+access-list 103 deny icmp 192.168.53.0 0.0.0.255 192.168.43.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.53.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+int port-channel1
+ip access-group 103 out
+exit
+
+!--- SW4 - VLAN RECURSOS (AUN NO SIRVE)
+
+access-list 103 deny icmp 192.168.73.0 0.0.0.255 192.168.43.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.73.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+access-list 103 deny icmp 192.168.83.0 0.0.0.255 192.168.43.0 0.0.0.255 echo
+no access-list 103 permit icmp 192.168.83.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+int port-channel1
+ip access-group 103 out
+exit
+
+!--- SW2 
+access-list 103 permit icmp 192.168.43.0 0.0.0.255 any echo
+
+
+---- VLAN VERDE T3
+
+access-list 103 permit icmp 192.168.33.0 0.0.0.255 192.168.73.0 0.0.0.255 echo
+access-list 103 permit icmp 192.168.33.0 0.0.0.255 192.168.13.0 0.0.0.255 echo
+access-list 103 permit icmp 192.168.33.0 0.0.0.255 192.168.53.0 0.0.0.255 echo
+access-list 103 deny icmp 192.168.33.0 0.0.0.255 any echo
+access-list 103 deny icmp 192.168.33.0 0.0.0.255 192.168.43.0 0.0.0.255 echo-reply
+access-list 103 permit icmp any any echo-reply
+int port-channel1
+ip access-group 103 out
+exit
+int port-channel2
+ip access-group 103 out
+exit
+int port-channel3
+ip access-group 103 out
+exit
+
+
+-- Visitantes
+
+access-list 103 deny icmp 192.168.23.0 0.0.0.255 any echo
+access-list 103 deny icmp 192.168.83.0 0.0.0.255 any echo
+access-list 103 deny icmp 192.168.63.0 0.0.0.255 any echo
+

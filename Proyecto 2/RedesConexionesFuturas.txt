@@ -1,0 +1,124 @@
+================================================
+===================== LACP =====================
+================================================
+! MS-9
+int range fa 0/2-5
+no switchport
+channel-protocol lacp
+channel-group 1 mode active
+exit
+do wr
+
+int range fa 0/6-9
+no switchport
+channel-protocol lacp
+channel-group 2 mode active
+exit
+do wr
+
+
+!--- MS10
+ena
+conf t
+no switchport
+int range fa0/1-4
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+int f0/5
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+do wr
+
+!--- MS13
+ena
+conf t
+no switchport
+int range fa0/1-4
+channel-protocol lacp
+channel-group 2 mode passive
+exit
+do wr
+
+
+
+================================================
+==================== VLANS =====================
+================================================
+
+
+! ---- MS13, MS12, MS11, MS10, MS9
+vlan 30
+name AtencionAlCliente
+vlan 40
+name Seguridad
+exit
+do wr
+
+
+
+================================================
+===================== OSPF =====================
+================================================
+
+! ---- MS9
+int port-channel 1
+ip add 192.168.33.209 255.255.255.240
+exit
+
+int port-channel 2
+ip add 192.168.33.129 255.255.255.240
+exit
+
+int fa 0/10 
+ip add 192.168.33.146 255.255.255.240
+exit
+
+int fa 0/11
+ip add 192.168.33.194 255.255.255.240
+exit
+
+int fa 0/1
+ip add 192.168.33.241 255.255.255.240
+exit
+
+router ospf 10
+network 192.168.33.208 0.0.0.15 area 0
+network 192.168.33.128 0.0.0.15 area 0
+network 192.168.33.144 0.0.0.15 area 0
+network 192.168.33.192 0.0.0.15 area 0
+network 192.168.33.240 0.0.0.15 area 0
+
+
+! ---- MS10
+int port-channel 1
+ip add 192.168.33.210 255.255.255.240
+exit
+
+Switch(config)#int vlan 30
+Switch(config-if)#ip address 192.168.33.1 255.255.255.192
+Switch(config-if)#no sh
+Switch(config-if)#exit
+
+! ---- MS11
+int fa 0/1
+ip add 192.168.33.193 255.255.255.240
+exit
+router ospf 10
+network 192.168.33.192 0.0.0.15 area 0
+network 192.168.33.0   0.0.0.63 area 0
+! ---- MS12
+int fa 0/1
+ip add 192.168.33.145 255.255.255.240
+exit
+router ospf 10
+network 192.168.33.144 0.0.0.15 area 0
+network 192.168.33.64   0.0.0.63 area 0
+! ---- MS13
+int port-channel 2
+ip add 192.168.33.130 255.255.255.240
+exit
+
+network 192.168.33.128 0.0.0.15 area 0
+network 192.168.33.64   0.0.0.63 area 0

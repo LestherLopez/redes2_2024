@@ -1,0 +1,206 @@
+
+
+
+================================================
+===================== LACP =====================
+================================================
+
+! RN-1
+int range fa 0/1-4
+channel-protocol lacp
+channel-group 1 mode active
+exit
+do wr
+
+! RN-2
+int range fa 0/1-4
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+do wr
+
+! RN-3
+int range fa 0/1-4
+channel-protocol lacp
+channel-group 1 mode active
+exit
+do wr
+
+! RN-4
+int range fa 0/1-4
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+do wr
+
+================================================
+===================== HSRP =====================
+================================================
+
+! RN-3
+int fa 0/8
+no switchport
+ip address 192.168.23.2 255.255.255.192
+standby version 2
+standby 10 ip 192.168.23.1
+standby 10 priority 160
+standby 10 preempt
+exit
+int fa 0/7
+no switchport
+ip address 192.168.23.66 255.255.255.192
+standby version 2
+standby 20 ip 192.168.23.65
+standby 20 priority 160
+standby 20 preempt
+exit
+do wr
+
+! RN-4
+int fa 0/7
+no switchport
+ip address 192.168.23.3 255.255.255.192
+standby version 2
+standby 10 ip 192.168.23.1
+exit
+int fa 0/8
+no switchport
+ip address 192.168.23.67 255.255.255.192
+standby version 2
+standby 20 ip 192.168.23.65
+exit
+do wr
+
+================================================
+==================== VLANS =====================
+================================================
+
+! ---- RN-1, RN-2, RN-3, RN-4
+vlan 10
+name VENTAS
+vlan 20
+name FACTURACION
+exit
+do wr
+
+================================================
+===================== RIP =====================
+================================================
+
+! ---- RN-1
+int port-channel 1
+no switchport
+ip add 192.168.23.209 255.255.255.240
+exit
+int fa 0/7
+no switchport
+ip add 192.168.23.194 255.255.255.240
+exit
+int fa 0/6
+no switchport
+ip add 192.168.23.162 255.255.255.240
+exit
+int fa 0/5
+no switchport
+no ip add 192.168.23.241 255.255.255.240
+exit
+ip routing
+do sh ip route
+router rip
+version 2
+network 192.168.23.0
+network 192.168.23.160
+network 192.168.23.192
+network 192.168.23.208
+network 192.168.23.240
+exit
+do wr
+
+
+! ---- RN-2
+int port-channel 1
+no switchport
+ip add 192.168.23.210 255.255.255.240
+exit
+int fa 0/7
+no switchport
+ip add 192.168.23.146 255.255.255.240
+exit
+int fa 0/6
+no switchport
+ip add 192.168.23.178 255.255.255.240
+exit
+int fa 0/5
+no switchport
+ip add 192.168.23.225 255.255.255.240
+exit
+ip routing
+do sh ip route
+router rip
+version 2
+network 192.168.23.0
+network 192.168.23.144
+network 192.168.23.176
+network 192.168.23.208
+network 192.168.23.224
+exit
+do wr
+
+
+! ---- RN-3
+int port-channel 1
+no switchport
+ip add 192.168.23.129 255.255.255.240
+exit
+int fa 0/5
+no switchport
+ip add 192.168.23.193 255.255.255.240
+exit
+int fa 0/6
+no switchport
+ip add 192.168.23.177 255.255.255.240
+exit
+ip routing
+router rip
+version 2
+network 192.168.23.0
+network 192.168.23.64
+network 192.168.23.128
+network 192.168.23.176
+network 192.168.23.192
+exit
+do wr
+
+
+! ---- RN-4
+int port-channel 1
+no switchport
+ip add 192.168.23.130 255.255.255.240
+exit
+int fa 0/5
+no switchport
+ip add 192.168.23.161 255.255.255.240
+exit
+int fa 0/6
+no switchport
+ip add 192.168.23.145 255.255.255.240
+exit
+router rip
+version 2
+network 192.168.23.0
+network 192.168.23.64
+network 192.168.23.128
+network 192.168.23.144
+network 192.168.23.160
+exit
+do wr
+
+! ---- Router3
+int gig 0/1/1
+no shut
+ip add 192.168.23.242 255.255.255.240
+exit
+int gig 0/1/2
+no shut
+ip add 192.168.23.226 255.255.255.240
+exit

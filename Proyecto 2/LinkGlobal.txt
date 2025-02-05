@@ -1,0 +1,227 @@
+================================================
+===================== LACP =====================
+================================================
+! MSW14
+int range fa 0/1-4
+no switchport
+channel-protocol lacp
+channel-group 1 mode active
+exit
+do wr
+
+int range fa 0/5-8
+channel-protocol lacp
+channel-group 2 mode active
+exit
+do wr
+
+
+!--- MSW15
+ena
+conf t
+int range fa0/1-4
+no switchport
+channel-protocol lacp
+channel-group 2 mode passive
+exit
+do wr
+
+!--- MSW16
+ena
+conf t
+int range fa0/1-4
+no switchport
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+do wr
+
+================================================
+=============== CONEXION HOSTS =================
+================================================
+
+
+! ---- MSW16
+
+int range f0/8-10
+switchport mode access
+switchport access vlan 50
+exit
+interface vlan 50
+ip address 192.168.43.5 255.255.255.192
+exit
+int f0/5
+ip address 192.168.43.197 255.255.255.252
+no sh
+exit
+int f0/6
+ip address 192.168.43.209 255.255.255.252
+exit
+int f0/7
+ip address 192.168.43.229 255.255.255.252
+exit
+int port-channel 1 
+ip address 192.168.43.213 255.255.255.252
+exit
+do wr
+
+! ---- MSW15
+
+int range f0/9
+switchport mode access
+switchport access vlan 60
+exit
+interface vlan 60
+ip address 192.168.43.133 255.255.255.192
+exit
+int f0/5
+ip address 192.168.43.233 255.255.255.252
+exit
+int f0/6
+ip address 192.168.43.217 255.255.255.252
+exit
+int f0/7
+ip address 192.168.43.230 255.255.255.252
+exit
+int f0/8
+ip address 192.168.43.205 255.255.255.252
+exit
+int port-channel 2
+ip address 192.168.43.202 255.255.255.252
+do wr
+
+! ---- MSW14
+
+int f0/12
+switchport mode access
+switchport access vlan 60
+exit
+interface vlan 60
+ip address 192.168.43.69 255.255.255.192
+exit
+int f0/11
+ip address 192.168.43.193 255.255.255.252
+exit
+int f0/10
+ip address 192.168.43.225 255.255.255.252
+exit
+int port-channel 1
+ip address 192.168.43.214 255.255.255.252
+exit
+int port-channel 2
+ip address 192.168.43.201 255.255.255.252
+exit
+do wr
+
+! ---- R7
+
+int f0/0
+ip address 192.168.43.194 255.255.255.252
+exit
+int f1/0
+ip address 192.168.43.218 255.255.255.252
+exit
+int f2/0
+ip address 192.168.43.221 255.255.255.252
+exit
+int f3/0
+ip address 192.168.43.198 255.255.255.252
+exit
+do wr
+
+! ---- R6
+
+int f0/0
+ip address 192.168.43.206 255.255.255.252
+exit
+int f1/0
+ip address 192.168.43.226 255.255.255.252
+exit
+int f2/0
+ip address 192.168.43.222 255.255.255.252
+exit
+int f3/0
+ip address 192.168.43.210 255.255.255.252
+exit
+do wr
+
+================================================
+==================== VLANS =====================
+================================================
+
+
+! ---- MSW14, MSW15, MSW16
+vlan 50
+name Desarrollo
+vlan 60
+name Investigacion
+exit
+do wr
+
+
+
+================================================
+===================== EIGRP =====================
+================================================
+
+! ---- MSW14
+
+ip routing
+router eigrp 3
+network 192.168.43.64 0.0.0.63
+network 192.168.43.200 0.0.0.3
+network 192.168.43.224 0.0.0.3
+network 192.168.43.212 0.0.0.3
+network 192.168.43.192 0.0.0.3
+no auto-summary 
+exit
+do wr
+
+! ---- MSW15
+
+ip routing
+router eigrp 3
+network 192.168.43.232 0.0.0.3
+network 192.168.43.128 0.0.0.63
+network 192.168.43.204 0.0.0.3
+network 192.168.43.228 0.0.0.3
+network 192.168.43.216 0.0.0.3
+network 192.168.43.200 0.0.0.3
+no auto-summary 
+exit
+do wr
+
+! ---- MSW16
+
+ip routing
+router eigrp 3
+network 192.168.43.0 0.0.0.63
+network 192.168.43.196 0.0.0.3
+network 192.168.43.212 0.0.0.3
+network 192.168.43.228 0.0.0.3
+network 192.168.43.208 0.0.0.3
+no auto-summary 
+exit
+do wr
+
+! ---- R7
+
+router eigrp 3
+network 192.168.43.192 0.0.0.3
+network 192.168.43.216 0.0.0.3
+network 192.168.43.220 0.0.0.3
+network 192.168.43.196 0.0.0.3
+no auto-summary 
+exit
+do wr
+
+! ---- R6
+
+router eigrp 3
+network 192.168.43.204 0.0.0.3
+network 192.168.43.224 0.0.0.3
+network 192.168.43.220 0.0.0.3
+network 192.168.43.208 0.0.0.3
+no auto-summary 
+exit
+do wr

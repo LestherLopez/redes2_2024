@@ -1,0 +1,32 @@
+!--- CONFIGURACIÓN LACP
+
+!--- SW2
+ena
+conf t
+int range fa0/2-5
+channel-protocol lacp
+channel-group 1 mode active
+exit
+int range fa0/6-9
+channel-protocol lacp
+channel-group 2 mode active
+exit
+int range fa0/10-13
+channel-protocol lacp
+channel-group 3 mode active
+exit
+do wr
+
+!--- SW1, SW3, SW4
+ena
+conf t
+int range fa0/2-5
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+do wr
+
+!--- CONFIGURACIÓN INTERFAZ CON IP DEL PORT-CHANNEL
+
+! interface port-channel 1
+! switchport mode trunk 

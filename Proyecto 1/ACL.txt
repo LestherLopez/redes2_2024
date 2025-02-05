@@ -1,0 +1,37 @@
+
+SWITCH IZQUIERDO ANTES DEL PORT-CHANNEL
+
+access-list 103 deny icmp 192.168.3.0 0.0.0.63 192.168.3.192 0.0.0.63 echo
+access-list 103 deny icmp 192.168.3.0 0.0.0.63 192.168.3.192 0.0.0.63 echo-reply
+access-list 103 deny icmp 192.168.3.64 0.0.0.63 192.168.3.128 0.0.0.63 echo
+access-list 103 deny icmp 192.168.3.64 0.0.0.63 192.168.3.128 0.0.0.63 echo-reply
+access-list 103 permit icmp any any echo
+access-list 103 permit icmp any any echo-reply
+access-list 103 permit ip any any
+
+interface port-channel 2 
+ip access-group 103 out
+
+
+VLANS IZQUIERDA
+
+access-list 103 deny icmp 192.168.3.0 0.0.0.63 192.168.3.64 0.0.0.63 echo
+access-list 103 deny icmp 192.168.3.0 0.0.0.63 192.168.3.64 0.0.0.63 echo-reply
+
+access-list 103 permit icmp any any echo
+access-list 103 permit icmp any any echo-reply
+access-list 103 permit ip any any
+interface vlan 13 
+ip access-group 103 in
+
+
+VLANS DERECHA
+
+access-list 103 deny icmp 192.168.3.128 0.0.0.63 192.168.3.192 0.0.0.63 echo
+access-list 103 deny icmp 192.168.3.128 0.0.0.63 192.168.3.192 0.0.0.63 echo-reply
+
+access-list 103 permit icmp any any echo
+access-list 103 permit icmp any any echo-reply
+access-list 103 permit ip any any
+interface vlan 13 
+ip access-group 103 in

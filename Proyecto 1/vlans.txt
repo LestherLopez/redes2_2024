@@ -1,0 +1,102 @@
+!====== CONFIGURACIÓN VLANS ======
+
+!------ Multilayer Switch0
+ena 
+conf t
+vlan 13
+name VLAN_Naranja_Grupo_3
+vlan 23
+name VLAN_Verde_Grupo_3
+exit
+! -- vtp
+vtp mode server
+vtp version 2
+vtp domain g3
+vtp password g3
+int range GigabitEthernet 1/1/1-2
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+do write
+
+!------ Multilayer Switch1
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range gigabitEthernet 1/1/1-3
+switchport mode trunk
+switchport trunk encapsulation dot1q
+switchport trunk allowed vlan all
+exit
+do write
+
+
+!------ Multilayer Switch2
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range gigabitEthernet 1/1/1-3
+switchport mode trunk
+switchport trunk encapsulation dot1q
+switchport trunk allowed vlan all
+exit
+do write
+
+!------ Multilayer Switch11
+ena 
+conf t
+! -- vtp
+vtp mode client
+vtp domain g3
+vtp password g3
+int range GigabitEthernet 1/1/1-2
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+do write
+
+!-----------------------------------------------------
+!------ Multilayer Switch3, Switch7, Switch1, Switch2
+ena 
+conf t
+! -- vtp
+vtp mode client
+vtp domain g3
+vtp password g3
+interface Port-channel 1
+switchport mode trunk
+switchport trunk encapsulation dot1q
+switchport trunk allowed vlan 13,23
+
+
+!-----------------------------------------------------
+!------ Multilayer Switch4, Switch5, Switch8, Switch9
+ena 
+conf t
+! -- vtp
+vtp mode client
+vtp domain g3
+vtp password g3
+interface range fa 0/1-2
+switchport mode trunk
+switchport trunk encapsulation dot1q
+switchport trunk allowed vlan 13,23
+
+!-----------------------------------------------------
+!------ Multilayer Switch6, Switch10
+ena 
+conf t
+! -- vtp
+vtp mode client
+vtp domain g3
+vtp password g3
+interface range fa 0/3-4
+switchport mode trunk
+switchport trunk encapsulation dot1q
+switchport trunk allowed vlan 13,23

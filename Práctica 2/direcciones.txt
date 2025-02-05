@@ -1,0 +1,10 @@
+
+Dirección           VLAN        Edificio    Descripción
+192.168.12.0/24     RECURSOS    M2          A = 13
+192.168.23.0/24     VISITANTES  M2          B = 23
+192.168.33.0/24     RECURSOS    T3          C = 33
+192.168.43.0/24     SOPORTE     T3          D = 43
+192.168.53.0/24     RECURSOS    T9          E = 53
+192.168.63.0/24     VISITANTES  T9          F = 63
+192.168.73.0/24     RECURSOS    BIBLIOTECA  G = 73
+192.168.83.0/24     VISITANTES  BIBLIOTECA  H = 83

@@ -1,0 +1,33 @@
+-----MS9
+ip routing
+router ospf 10
+network 192.168.33.208 0.0.0.15 area 0
+network 192.168.33.128 0.0.0.15 area 0
+network 192.168.33.144 0.0.0.15 area 0
+network 192.168.33.192 0.0.0.15 area 0
+network 192.168.33.240 0.0.0.15 area 0
+
+-----MS10
+ip routing
+router ospf 10
+network 192.168.33.208 0.0.0.15 area 0
+network 192.168.33.0 0.0.0.63 area 0
+
+-----MS11
+ip routing
+router ospf 10
+network 192.168.33.192 0.0.0.15 area 0
+network 192.168.33.0 0.0.0.63 area 0
+
+-----MS12
+ip routing
+router ospf 10
+network 192.168.33.144 0.0.0.15 area 0
+network 192.168.33.64 0.0.0.63 area 0
+
+-----MS13
+ip routing
+router ospf 10
+network 192.168.33.128 0.0.0.15 area 0
+network 192.168.33.64 0.0.0.63 area 0
+

@@ -1,0 +1,13 @@
+en
+conf t
+int vlan 13
+standby 2 ip 192.168.3.0
+standby 2 priority 160
+standby 2 preempt
+ip helper-address 10.0.0.2
+
+int vlan 23
+standby 1 ip 192.168.3.28
+standby 1 priority 160
+standby 1 preempt
+ip helper-address 10.0.0.2

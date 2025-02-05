@@ -1,0 +1,40 @@
+!====== CONFIGURACIÓN LACP ======
+
+!--- Multilayer Switch3
+ena
+conf t
+int range fa0/3-6
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+do wr
+
+!--- Multilayer Switch1
+ena
+conf t
+int range GigabitEthernet 1/0/1-4
+channel-protocol lacp
+channel-group 1 mode active
+exit
+do wr
+
+!--- Multilayer Switch3
+ena
+conf t
+int range GigabitEthernet 1/0/1-4
+channel-protocol lacp
+channel-group 1 mode active
+exit
+do wr
+
+!--- Multilayer Switch7
+ena
+conf t
+int range fa0/3-6
+channel-protocol lacp
+channel-group 1 mode passive
+exit
+do wr
+
+
+

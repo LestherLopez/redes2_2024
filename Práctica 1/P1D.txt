@@ -1,0 +1,103 @@
+SW2_G3, SW3_G3, SW1_G3 -------------------------------
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range fa 0/1-3
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+do write
+
+SW4_G3, SW6_G3 -------------------------------------------
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range fa 0/1-4
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+do write
+
+SW5_G3 ---------------------------------------------------
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range fa 0/1-9
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+do write
+
+SW7_G3, SW8_G3 ------------------------------------------
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range fa 0/2-3
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+int fa 0/1
+switchport mode access
+switchport access vlan 13
+exit
+do write
+
+
+
+SW9_G3 ---------------------------------------------------
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int range fa 0/2-3
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+int fa 0/1
+switchport mode access
+switchport access vlan 33
+exit
+do write
+exit
+
+
+SW10_G3, SW11_G3--------------------------------------------
+
+ena
+conf t
+!----- vtp -----
+vtp mode client
+vtp domain g3
+vtp password g3
+int fa 0/2
+switchport mode trunk
+switchport trunk allowed vlan all
+exit
+int fa 0/1
+switchport mode access
+switchport access vlan 23
+exit
+int fa 0/1
+switchport port-security
+switchport port-security mac-address 000B.BED3.74C6(SW10)/0090.0C0C.6059(SW11)
+exit
+do write
+
+
+
+
+
